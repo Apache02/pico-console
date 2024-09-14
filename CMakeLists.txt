@@ -12,6 +12,7 @@ endif ()
 
 include(pico_sdk_import.cmake)
 include(scripts/functions.cmake)
+include(FreeRTOS_Kernel_import.cmake)
 
 project(pico-console C CXX ASM)
 
@@ -30,9 +31,15 @@ pico_enable_stdio_uart(pico-console 0)
 
 pico_add_extra_outputs(pico-console)
 
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/config
+)
+
 target_link_libraries(
         pico-console
         pico_stdlib
+        FreeRTOS-Kernel
+        FreeRTOS-Kernel-Heap4
 )
 
 add_deploy_target(pico-console "${CMAKE_CURRENT_BINARY_DIR}/pico-console.uf2")

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include <FreeRTOS.h>
+#include <task.h>
 
 #define INTERVAL 150
 
@@ -17,12 +19,7 @@ void dash() {
     sleep_ms(INTERVAL);
 }
 
-int main() {
-    stdio_init_all();
-    sleep_ms(2000);
-
-    printf("ready\n");
-
+void vTaskBlink(void *pvParams) {
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
@@ -39,6 +36,29 @@ int main() {
 
         sleep_ms(INTERVAL * 2);
     }
+}
+
+void init_hw() {
+    set_sys_clock_khz(configCPU_CLOCK_HZ / 1000, false);
+    stdio_init_all();
+}
+
+int main() {
+    init_hw();
+
+    sleep_ms(2000);
+    printf("ready\n");
+
+    xTaskCreate(
+            vTaskBlink,
+            "blink",
+            configMINIMAL_STACK_SIZE,
+            NULL,
+            1,
+            NULL
+    );
+
+    vTaskStartScheduler();
 
     return 0;
 }
