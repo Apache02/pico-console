@@ -1,0 +1,9 @@
+.idea
+
+config.cmake
+
+build
+cmake-build-default
+cmake-build-debug
+cmake-build-release
+
