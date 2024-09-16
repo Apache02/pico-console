@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 # specified board definitions
-#list(APPEND PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_LIST_DIR}/src/boards)
+list(APPEND PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_LIST_DIR}/src/boards)
 set(PICO_BOARD pico)
 
 # use config.cmake

@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include "pico/stdio.h"
 #include "pico/stdlib.h"
+#include "hardware/clocks.h"
 #include <FreeRTOS.h>
 #include <task.h>
 
