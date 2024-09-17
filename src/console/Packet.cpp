@@ -91,7 +91,6 @@ bool parse_hex_literal(const char *&cursor, int &out) {
 bool parse_octal_literal(const char *&cursor, int &out) {
     int accum = 0;
     int sign = 1;
-    int digits = 0;
 
     if (*cursor == '-') {
         sign = -1;
@@ -104,16 +103,11 @@ bool parse_octal_literal(const char *&cursor, int &out) {
         } else {
             return false;
         }
-        digits++;
         cursor++;
     }
 
-    if (digits != 0) {
-        out = sign * accum;
-        return true;
-    } else {
-        return false;
-    }
+    out = sign * accum;
+    return true;
 }
 
 //------------------------------------------------------------------------------
