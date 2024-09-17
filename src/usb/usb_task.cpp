@@ -23,3 +23,7 @@ void vTaskUsb(__unused void *pvParams) {
         vTaskDelay(1);
     }
 }
+
+bool usb_is_connected() {
+    return tud_cdc_n_connected(ITF_CONSOLE);
+}

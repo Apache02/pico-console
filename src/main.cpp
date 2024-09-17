@@ -7,31 +7,22 @@
 #include "tusb.h"
 
 #include "usb/usb_task.h"
-#include "usb/usb_itf.h"
+#include "console/console_task.h"
 
-
-extern "C" void usbd_serial_init(void);
 
 #ifdef PICO_DEFAULT_LED_PIN
 
-void vTaskBlink(void *pvParams) {
+void vTaskLed(void *pvParams) {
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
     for (;;) {
-        gpio_put(PICO_DEFAULT_LED_PIN, tud_cdc_n_connected(ITF_CONSOLE));
+        gpio_put(PICO_DEFAULT_LED_PIN, usb_is_connected());
         vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
 #endif
-
-void vTaskHello(void *pvParams) {
-    for (;;) {
-        printf("hello printf!\n");
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
 
 void init_hardware() {
     set_sys_clock_khz(configCPU_CLOCK_HZ / 1000, false);
@@ -45,7 +36,7 @@ int main() {
 
 #ifdef PICO_DEFAULT_LED_PIN
     xTaskCreate(
-            vTaskBlink,
+            vTaskLed,
             "led",
             configMINIMAL_STACK_SIZE,
             NULL,
@@ -64,9 +55,9 @@ int main() {
     );
 
     xTaskCreate(
-            vTaskHello,
-            "hello",
-            configMINIMAL_STACK_SIZE * 2,
+            vTaskConsole,
+            "console",
+            configMINIMAL_STACK_SIZE * 4,
             NULL,
             1,
             NULL

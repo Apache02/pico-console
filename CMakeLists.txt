@@ -21,6 +21,8 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 
+add_subdirectory(src/console)
+
 add_executable(
         pico-console
         src/main.cpp
@@ -43,6 +45,7 @@ target_link_libraries(
         tinyusb_device
         FreeRTOS-Kernel
         FreeRTOS-Kernel-Heap4
+        task_console
 )
 
 add_deploy_target(pico-console "${CMAKE_CURRENT_BINARY_DIR}/pico-console.uf2")

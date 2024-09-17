@@ -11,10 +11,4 @@
 
 #include <tusb_option.h>
 
-#ifdef __cplusplus
-extern "C"
-#endif
-void usbd_serial_init(void);
-
-
 #endif // __TUSB_CONFIG_H
