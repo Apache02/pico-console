@@ -20,4 +20,5 @@ target_link_libraries(
         pico_unique_id
         hardware_clocks
         hardware_adc
+        hardware_i2c
 )

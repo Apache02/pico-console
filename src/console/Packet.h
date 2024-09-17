@@ -33,15 +33,15 @@ struct Result {
 
     bool is_err() const { return err; }
 
-//    operator R() const {
+    operator R() const {
 //        CHECK(is_ok());
-//        return r;
-//    }
-//
-//    operator E() const {
+        return r;
+    }
+
+    operator E() const {
 //        CHECK(is_err());
-//        return e;
-//    }
+        return e;
+    }
 
     static Result Ok(R r) {
         Result result;

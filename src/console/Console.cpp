@@ -23,6 +23,10 @@ static const ConsoleHandler handlers[] = {
                 },
         },
         {
+                "board_help",
+                command_board_help,
+        },
+        {
                 "echo",
                 command_echo,
         },
@@ -41,6 +45,10 @@ static const ConsoleHandler handlers[] = {
         {
                 "bench",
                 command_benchmark,
+        },
+        {
+                "i2c_scan",
+                command_i2c_scan,
         },
 };
 
