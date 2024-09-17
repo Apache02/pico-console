@@ -4,57 +4,69 @@
 #include "hardware/clocks.h"
 #include <FreeRTOS.h>
 #include <task.h>
+#include "tusb.h"
 
-#define INTERVAL 150
+#include "usb/usb_task.h"
+#include "usb/usb_itf.h"
 
-void dot() {
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    sleep_ms(INTERVAL);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(INTERVAL);
-}
 
-void dash() {
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    sleep_ms(INTERVAL * 3);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(INTERVAL);
-}
+extern "C" void usbd_serial_init(void);
+
+#ifdef PICO_DEFAULT_LED_PIN
 
 void vTaskBlink(void *pvParams) {
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
     for (;;) {
-        dot();
-        dot();
-        dot();
-        dash();
-        dash();
-        dash();
-        dot();
-        dot();
-        dot();
-
-        sleep_ms(INTERVAL * 2);
+        gpio_put(PICO_DEFAULT_LED_PIN, tud_cdc_n_connected(ITF_CONSOLE));
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
-void init_hw() {
+#endif
+
+void vTaskHello(void *pvParams) {
+    for (;;) {
+        printf("hello printf!\n");
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+void init_hardware() {
     set_sys_clock_khz(configCPU_CLOCK_HZ / 1000, false);
-    stdio_init_all();
+    usbd_serial_init();
+    tusb_init();
+    stdio_usb_init();
 }
 
 int main() {
-    init_hw();
+    init_hardware();
 
-    sleep_ms(2000);
-    printf("ready\n");
-
+#ifdef PICO_DEFAULT_LED_PIN
     xTaskCreate(
             vTaskBlink,
-            "blink",
+            "led",
             configMINIMAL_STACK_SIZE,
+            NULL,
+            1,
+            NULL
+    );
+#endif
+
+    xTaskCreate(
+            vTaskUsb,
+            "usb",
+            configMINIMAL_STACK_SIZE * 2,
+            NULL,
+            1,
+            NULL
+    );
+
+    xTaskCreate(
+            vTaskHello,
+            "hello",
+            configMINIMAL_STACK_SIZE * 2,
             NULL,
             1,
             NULL
