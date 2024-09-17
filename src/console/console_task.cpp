@@ -10,26 +10,35 @@
 
 Console *console;
 
-void vTaskConsole(__unused void *pvParams) {
-    console = new Console();
-
+static void wait_usb() {
     vTaskDelay(pdMS_TO_TICKS(500));
     while (!usb_is_connected()) {
         vTaskDelay(pdMS_TO_TICKS(10));
     }
     vTaskDelay(pdMS_TO_TICKS(100));
+}
 
-    printf("%s.\n\n", COLOR_WHITE("Pico console ready"));
+static void print_welcome() {
+    printf("\n%s.\n\n", COLOR_WHITE("Pico console is ready"));
+}
 
-    console->reset();
-    console->start();
+void vTaskConsole(__unused void *pvParams) {
+    console = new Console();
 
-    char rx[6];
 
     for (;;) {
-        size_t count = tud_cdc_n_read(ITF_CONSOLE, rx, sizeof(rx));
-        console->update(rx, count);
+        wait_usb();
+        print_welcome();
 
-        vTaskDelay(1);
+        console->reset();
+        console->start();
+
+        while (usb_is_connected()) {
+            char rx[6];
+            size_t count = tud_cdc_n_read(ITF_CONSOLE, rx, sizeof(rx));
+            console->update(rx, count);
+
+            vTaskDelay(1);
+        }
     }
 }
