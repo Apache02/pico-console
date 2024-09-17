@@ -17,6 +17,7 @@ target_sources(
 target_link_libraries(
         task_console INTERFACE
         pico_stdlib
+        pico_unique_id
         hardware_clocks
         hardware_adc
 )

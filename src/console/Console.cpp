@@ -31,6 +31,10 @@ static const ConsoleHandler handlers[] = {
                 command_sensors,
         },
         {
+                "chip_id",
+                command_chip_id,
+        },
+        {
                 "clocks",
                 command_clocks,
         },

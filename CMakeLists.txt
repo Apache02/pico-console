@@ -41,7 +41,7 @@ target_link_libraries(
         pico-console
         pico_stdlib
         pico_stdio_usb
-        hardware_flash
+        pico_unique_id
         tinyusb_device
         FreeRTOS-Kernel
         FreeRTOS-Kernel-Heap4

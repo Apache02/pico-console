@@ -10,3 +10,5 @@ void command_benchmark(Console &c);
 
 void command_sensors(Console &c);
 
+void command_chip_id(Console &c);
+

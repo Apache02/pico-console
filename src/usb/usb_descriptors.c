@@ -1,6 +1,9 @@
 #include <hardware/flash.h>
 #include <tusb.h>
 
+#include "pico/unique_id.h"
+
+
 #define DESC_STR_MAX 20
 
 #define USBD_VID 0x2E8A /* Raspberry Pi */
@@ -103,10 +106,5 @@ const uint16_t *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
 }
 
 void usbd_serial_init(void) {
-    uint8_t id[8];
-
-    flash_get_unique_id(id);
-
-    snprintf(usbd_serial, USBD_STR_SERIAL_LEN, "%02X%02X%02X%02X%02X%02X%02X%02X",
-             id[0], id[1], id[2], id[3], id[4], id[5], id[6], id[7]);
+    pico_get_unique_board_id_string(usbd_serial, sizeof(usbd_serial));
 }
