@@ -1,5 +1,4 @@
 #include "commands.h"
-#include "../colors.h"
 
 #include <stdio.h>
 #include "hardware/i2c.h"
