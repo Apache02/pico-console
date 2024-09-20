@@ -99,7 +99,7 @@ void usbd_serial_init(void) {
 static const char *const desc_string_arr[] = {
         [USBD_STR_LANGUAGE] = (const char[]) {0x09, 0x04},  // 0: is supported language is English (0x0409)
         [USBD_STR_MANUF] = "Raspberry Pi",                  // 1: Manufacturer
-        [USBD_STR_PRODUCT] = "Pico console",                // 2: Product
+        [USBD_STR_PRODUCT] = "Pico Console",                // 2: Product
         [USBD_STR_SERIAL] = usb_serial,                     // 3: Serials, should use chip ID
         [USBD_STR_CDC] = "CDC",                             // 4: CDC Interface
 };
