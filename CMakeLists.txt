@@ -28,6 +28,7 @@ add_executable(
         src/main.cpp
         src/usb/usb_descriptors.c
         src/usb/usb_task.cpp
+        src/msc_disk.c
 )
 
 pico_add_extra_outputs(pico-console)
