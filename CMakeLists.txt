@@ -18,39 +18,5 @@ project(pico-console C CXX ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-pico_sdk_init()
 
-
-add_subdirectory(src/shell)
-add_subdirectory(src/commands)
-
-
-add_executable(
-        pico-console
-        src/main.cpp
-        src/shell_task.cpp
-        src/handlers.cpp
-        src/usb/usb_descriptors.c
-        src/usb/usb_task.cpp
-)
-
-pico_add_extra_outputs(pico-console)
-
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/config
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/usb
-)
-
-target_link_libraries(
-        pico-console
-        pico_stdlib
-        pico_stdio_usb
-        pico_unique_id
-        tinyusb_device
-        FreeRTOS-Kernel
-        FreeRTOS-Kernel-Heap4
-        shell
-        commands
-)
-
-add_deploy_target(pico-console "${CMAKE_CURRENT_BINARY_DIR}/pico-console.uf2")
+add_subdirectory(src)
