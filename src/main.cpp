@@ -7,7 +7,7 @@
 #include "tusb.h"
 
 #include "usb/usb_task.h"
-#include "console/console_task.h"
+#include "shell_task.h"
 
 
 #ifdef PICO_DEFAULT_LED_PIN
@@ -55,8 +55,8 @@ int main() {
     );
 
     xTaskCreate(
-            vTaskConsole,
-            "console",
+            vTaskShell,
+            "shell",
             configMINIMAL_STACK_SIZE * 4,
             NULL,
             1,
