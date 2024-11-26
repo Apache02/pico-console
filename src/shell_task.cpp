@@ -33,18 +33,9 @@ void vTaskShell(__unused void *pvParams) {
         console->start();
 
         while (usb_is_connected()) {
-            char rx[8];
-            size_t count = tud_cdc_n_read(ITF_CONSOLE, rx, sizeof(rx));
-
-            if (count > 0) {
-                for (int i = 0; i < count; i++) {
-                    int c = rx[i];
-                    if (c == '\x1B') {
-                        c = console->resolve_key(&rx[i], count);
-                        i = count;
-                    }
-                    console->update(c);
-                }
+            char rx;
+            if (tud_cdc_n_read(ITF_CONSOLE, &rx, sizeof(rx)) > 0) {
+                console->update(rx);
             }
 
             vTaskDelay(1);

@@ -6,8 +6,8 @@ static void help(Console &console);
 
 extern const Console::Handler handlers[] = {
         {"help",       help},
-        {"board_help", command_board_help},
         {"echo",       command_echo},
+        {"board_help", command_board_help},
         {"sensors",    command_sensors},
         {"chip_id",    command_chip_id},
         {"clocks",     command_clocks},
